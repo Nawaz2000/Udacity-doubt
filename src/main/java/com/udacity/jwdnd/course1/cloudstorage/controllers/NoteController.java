@@ -33,8 +33,11 @@ public class NoteController {
 		if (!noteService.isNoteTitleAvailable(note.getNotetitle()))
 			model.addAttribute("error", "Note of same title already exists!");
 		else {
-			noteService.addOrUpdateNote(note/* , auth */);
-			model.addAttribute("success", true);
+			Integer x = noteService.addOrUpdateNote(note/* , auth */);
+			if (x > 0)
+				model.addAttribute("success", true);
+			else
+				model.addAttribute("success", false);
 		}
 
 		return "result";

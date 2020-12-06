@@ -50,11 +50,12 @@
                                 </thead>
                                 <tbody>
                                 <tr th:each="currFile:${fileList}">
+								
                                     <td>
                                         <a th:href="@{/fileDownload(filename = ${currFile.getFilename()})}" target="_blank" class="btn btn-success">Download</a>
                                         <a th:href="@{/fileDelete(fileid = ${currFile.getFileid()})}" class="btn btn-danger">Delete</a>
                                     </td>
-                                    <th th:text="${currFile.filename}" scope="row">ExampleFile.txt</th>
+                                    <th th:text="${currFile.getFilename()}" scope="row">ExampleFile.txt</th>
                                 </tr>
                                 </tbody>
                             </table>
@@ -76,13 +77,13 @@
                                 </thead>
                                 <tbody>
                                     <tr th:each="currNote:${noteList}">
-                                        <td>
+                                        <td>																  
                                             <button type="button" class="btn btn-success"
-											th:onclick="showNoteModal(${currNote.getNoteid()}, ${currNote.getNotetitle()}, ${currNote.getNotedescription()})">Edit</button>
+											th:onclick="javascript:showNoteModal(${currNote.getNoteid()}, ${currNote.getNotetitle()}, ${currNote.getNotedescription()})">Edit</button>
                                             <a th:href="@{/noteDelete(noteid = ${currNote.getNoteid()})}" class="btn btn-danger">Delete</a>
                                         </td>
                                         <th th:text="${currNote.getNotetitle()}" scope="row">Example Note Title</th>
-                                        <td th:text="${currNote.getNotedescription}">Example Note Description </td>
+                                        <td th:text="${currNote.getNotedescription()}">Example Note Description </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -138,7 +139,7 @@
                                 <tr th:each="formCredential:${credentialList}">
                                     <td>
                                         <button th:onclick="showCredentialModal(${formCredential.getCredentialid()}, ${formCredential.getUrl()}, ${formCredential.getUsername()}, ${formCredential.getPassword()})" type="button" class="btn btn-success">Edit</button>
-                                        <a th:href="@{/credentialDelete(credentialid = formCredential.getCredentialid())}" class="btn btn-danger">Delete</a>
+                                        <a th:href="@{/credentialDelete(credentialid = formCredential.credentialid)}" class="btn btn-danger">Delete</a>
                                     </td>
                                     <th th:text="${formCredential.getUrl()}" scope="row">Example Credential URL</th>
                                     <td th:text="${formCredential.getUsername()}">Example Credential Username</td>
@@ -159,7 +160,7 @@
                                     </div>
                                     <div class="modal-body">
                                         <form th:action="@{/credentialUpload}" th:object="${formCredential}" action="#" method="POST">
-                                            <input type="hidden" name="credentialId" id="credential-id">
+                                            <input th:field="*{credentialid}" type="hidden" name="credentialId" id="credential-id">
                                             <div class="form-group">
                                                 <label for="note-title" class="col-form-label">URL</label>
                                                 <input th:field="*{url}" type="text" name= "url" class="form-control" id="credential-url" maxlength="100" required>
